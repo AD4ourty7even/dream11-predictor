@@ -121,6 +121,8 @@ def create_player_features(df):
     df = clean_df(df)
     
     # Convert start_date to datetime
+    # print(df['start_date'])
+    df['start_date'] = df['start_date'].str.split(' ').str[0]  # Remove timestamp
     df['start_date'] = pd.to_datetime(df['start_date'])
     
     # Calculate time-based features
@@ -312,35 +314,70 @@ def predict_match_players(df, model, team1, team2, team1_players, team2_players,
     return pd.DataFrame(predictions).reset_index(drop=True)
 
 def update_cricket_data():
-    start_date = '25 Feb 2025'
-    end_date = (datetime.now() - timedelta(days=1)).strftime('%d %b %Y')
-    print(f"Checking for new matches from {start_date} to {end_date}")
-    existing_df = pd.read_csv('processed_final.csv')
-    # Scrape new data if needed
-    dfs = []
-    for stats_type in ['batting', 'bowling', 'fielding']:
-        df = scrape_multiple_pages(start_date, end_date, stats_type)
-        if df is not None:
-            dfs.append(df)
+    try:
+        start_date = '25 Feb 2025'
+        end_date = (datetime.now() - timedelta(days=1)).strftime('%d %b %Y')
+        print(f"Checking for new matches from {start_date} to {end_date}")
+        
+        print("Loading existing data...")
+        existing_df = pd.read_csv('processed_final.csv')
+        # print(f"Existing data shape: {existing_df.shape}")
+        
+        # Scrape new data if needed
+        dfs = []
+        for stats_type in ['batting', 'bowling', 'fielding']:
+            print(f"Scraping {stats_type} stats...")
+            df = scrape_multiple_pages(start_date, end_date, stats_type)
+            if df is not None:
+                print(f"{stats_type} data shape: {df.shape}")
+                dfs.append(df)
 
-    if dfs:
-        # Process and merge new data
-        df1, df2, df3 = dfs
-        # ...existing data processing code...
-        final_df = clean_data(merge_dfs(df1, df2, df3))
-        # Merge with existing data
-        try:
-            combined_df = pd.concat([existing_df, final_df])
-            combined_df = combined_df.drop_duplicates(subset=['player', 'start_date'])
-            combined_df.to_csv('processed_final.csv', index=False)
-            print(f"Added {len(final_df)} new records")
-        except FileNotFoundError:
-            final_df.to_csv('processed_final.csv', index=False)
-    else:
-        print("No new matches found")
-
-
-
+        if dfs:
+            print("Processing new data...")
+            df1, df2, df3 = dfs
+            final_df = clean_data(merge_dfs(df1, df2, df3))
+            print(f"New processed data shape: {final_df.shape}")
+            
+            try:
+                print("Combining with existing data...")
+                # print(f"Existing DataFrame columns: {existing_df.columns}")
+                # print(f"New DataFrame columns: {final_df.columns}")
+                
+                # Define the required columns
+                required_columns = [
+                    'player', 'runs', 'mins', 'bf', '4s', '6s', 'sr',
+                    'inns_batting', 'overs', 'mdns', 'runs_given', 'wkts', 'econ',
+                    'inns_bowling', 'dis', 'ct', 'st', 'ct_wk', 'ct_fi', 'opposition',
+                    'ground', 'start_date', 'country', 'runs_clean', 'Credits',
+                    'Player Type', 'Player Name', 'Team', 'Bowling Style', 'fantasy_points',
+                    'preferred_style', 'opponent_tier'
+                ]
+                
+                # Drop 'Unnamed: 0' if it exists
+                if 'Unnamed: 0' in existing_df.columns:
+                    existing_df = existing_df.drop('Unnamed: 0', axis=1)
+                
+                # Ensure both DataFrames have the same columns
+                existing_df = existing_df[required_columns]
+                final_df = final_df[required_columns]
+                
+                # Remove duplicates
+                existing_df = existing_df.drop_duplicates()
+                
+                # Concatenate DataFrames
+                combined_df = pd.concat([existing_df, final_df], ignore_index=True)
+                combined_df = combined_df.drop_duplicates(subset=['player', 'start_date'])
+                combined_df.to_csv('processed_final.csv', index=False)
+                print(f"Added {len(final_df)} new records")
+            except Exception as e:
+                print(f"Error during data combination: {str(e)}")
+                raise
+        else:
+            print("No new matches found")
+            
+    except Exception as e:
+        print(f"Error in update_cricket_data: {str(e)}")
+        raise
 
 def get_squad_data():
     """Get squad data with Docker volume mount handling"""
@@ -357,7 +394,6 @@ def get_squad_data():
     except FileNotFoundError:
         # Fallback to packaged CSV
         print("no squad data")
-
 
 def final_team(predictions):
     # Create a working copy of the DataFrame with a clean index
@@ -414,25 +450,28 @@ def final_team(predictions):
 
 def main():
     try:
-        # Update data first
+        print("1. Starting update_cricket_data...")
         update_cricket_data()
         
-        # Load latest data
+        print("2. Loading processed_final.csv...")
         df = pd.read_csv('processed_final.csv')
+        print(f"Loaded DataFrame shape: {df.shape}")
         
-        # Load squad data with appropriate path
-        # squad_df = get_squad_data()
-        
-        # Get player inputs
+        print("3. Getting player inputs...")
         team1_name, team1_players, team2_name, team2_players, venue, pitch_type, batting_first = get_player_inputs()
+        print(f"Teams: {team1_name} vs {team2_name}")
         
-        # Create features and train model
-        print("\nProcessing data and training model...")
+        print("4. Creating features...")
         df = create_player_features(df)
-        X = df[select_features(df)]
-        y = df['fantasy_points']
+        print(f"DataFrame shape after feature creation: {df.shape}")
         
-        # Train XGBoost model
+        print("5. Selecting features...")
+        features = select_features(df)
+        X = df[features]
+        y = df['fantasy_points']
+        print(f"X shape: {X.shape}, y shape: {y.shape}")
+        
+        print("6. Training model...")
         model = Pipeline([
             ('scaler', StandardScaler()),
             ('xgb', XGBRegressor(
@@ -443,9 +482,9 @@ def main():
             ))
         ])
         model.fit(X, y)
+        print("Model training complete")
         
-        # Make predictions
-        print("\nMaking predictions...")
+        print("7. Making predictions...")
         predictions = predict_match_players(
             df,
             model,
@@ -459,6 +498,7 @@ def main():
         )
         
         if predictions is not None:
+            print("8. Creating final team...")
             final_team_df = final_team(predictions)
             print(final_team_df)
             final_team_df.to_csv(f'QuestX_output.csv', index=False)
@@ -466,6 +506,10 @@ def main():
             
     except Exception as e:
         print(f"\nAn error occurred: {str(e)}")
+        print(f"Error type: {type(e).__name__}")
+        import traceback
+        print("Full traceback:")
+        print(traceback.format_exc())
         print("Please check your inputs and try again.")
 
 if __name__ == "__main__":

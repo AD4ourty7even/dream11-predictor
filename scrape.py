@@ -114,44 +114,54 @@ def build_cricinfo_url(start_date, end_date, stats_type='batting'):
 
 def merge_dfs(df1, df2, df3):
     def clean_columns(df, suffix):
+        # Reset index and clean column names
+        df = df.reset_index(drop=True)
         df.columns = [col.strip().lower().replace(' ', '_') + suffix for col in df.columns]
         return df
+    
+    # Clean and prepare DataFrames
     df1 = clean_columns(df1, '_1')
     df2 = clean_columns(df2, '_2')
     df3 = clean_columns(df3, '_3')
-
-    # Merge the DataFrames on the common columns with adjusted column names
-    final_df = pd.merge(df1, df2,
-                        left_on=['player_1', 'opposition_1', 'ground_1', 'start_date_1'],
-                        right_on=['player_2', 'opposition_2', 'ground_2', 'start_date_2'],
-                        how='outer')
-
-    final_df = pd.merge(final_df, df3,
-                        left_on=['player_1', 'opposition_1', 'ground_1', 'start_date_1'],
-                        right_on=['player_3', 'opposition_3', 'ground_3', 'start_date_3'],
-                        how='outer')
-
-    # Drop the specified columns
-    columns_to_drop = ['unnamed:_8_1', 'unnamed:_7_2',  'ground_1','opposition_1', 'start_date_1',
-                    'player_2', 'opposition_2', 'start_date_2',  'ground_2', 'unnamed:_11_2',
+    
+    # First merge
+    try:
+        final_df = pd.merge(df1, df2,
+                           left_on=['player_1', 'opposition_1', 'ground_1', 'start_date_1'],
+                           right_on=['player_2', 'opposition_2', 'ground_2', 'start_date_2'],
+                           how='outer',
+                           validate=None)  # Disable validation temporarily
+        
+        # Second merge
+        final_df = pd.merge(final_df, df3,
+                           left_on=['player_1', 'opposition_1', 'ground_1', 'start_date_1'],
+                           right_on=['player_3', 'opposition_3', 'ground_3', 'start_date_3'],
+                           how='outer',
+                           validate=None)  # Disable validation temporarily
+        
+        # Reset index after merges
+        final_df = final_df.reset_index(drop=True)
+        
+    except Exception as e:
+        print(f"Error during merge: {str(e)}")
+        # Print the shapes and column names for debugging
+        print(f"df1 shape: {df1.shape}, columns: {df1.columns}")
+        print(f"df2 shape: {df2.shape}, columns: {df2.columns}")
+        print(f"df3 shape: {df3.shape}, columns: {df3.columns}")
+        raise
+    
+    # Rest of the function remains the same...
+    columns_to_drop = ['unnamed:_8_1', 'unnamed:_7_2', 'ground_1','opposition_1', 'start_date_1',
+                    'player_2', 'opposition_2', 'start_date_2', 'ground_2', 'unnamed:_11_2',
                     'player_3', 'unnamed:_7_3', 'unnamed:_11_3', 'inns_3']
     final_df = final_df.drop(columns=columns_to_drop, errors='ignore')
-
-    # Remove the suffixes (_1, _2, _3) from the column names
+    
     final_df.columns = final_df.columns.str.replace(r'(_\d+)', '', regex=True)
-
-    # Rename the 'inns' columns after sr and econ
     final_df = final_df.rename(columns={'inns': 'inns_batting', 'inns_2': 'inns_bowling'})
-
-    # Convert the 'start_date' column to datetime
     final_df['start_date'] = pd.to_datetime(final_df['start_date'], format='%d %b %Y')
-
-    # Sort the DataFrame by 'start_date' in descending order (latest date at the top)
     final_df = final_df.sort_values(by='start_date', ascending=False)
-
-    # Split the 'player' column into 'player' and 'country'
     final_df[['player', 'country']] = final_df['player'].str.extract(r'([^\(]+)\s\(([^)]+)\)')
-
+    
     return final_df
 
 def main():
