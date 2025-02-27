@@ -1,0 +1,100 @@
+ground_name,preferred_style,Source
+Karachi,BAL,"National Stadium Karachi, batting-friendly ([Source 3]5)"
+Colombo (RPS),BAL,Balanced pitch with early swing for pacers ([Source 2]8)
+Ahmedabad,BAT,"Narendra Modi Stadium, batting-friendly ([Source 10]10)"
+Lahore,BAT,"Gaddafi Stadium, batting-friendly ([Source 3]5)"
+Cuttack,BAT,"Moderate scoring, favors batting (Inferred from Indian pitch trends)"
+Nagpur,SPIN,"Vidarbha Stadium, spin-friendly ([Source 10]10)"
+Auckland,BAT,"Short boundaries, batting-friendly (General NZ pitch trends)"
+Hamilton,PACE,Balanced but favors pacers (General NZ pitch trends)
+Wellington,PACE,"Seam-friendly, bowler-friendly ([Source 2]8)"
+Johannesburg,BAT,High-scoring batting paradise ([Source 1]1)
+Harare,BAL,Balanced pitch (Inferred from Zimbabwean trends)
+Cape Town,PACE,"Newlands, pace-friendly ([Source 2]8)"
+Paarl,BAL,Moderate pace/spin balance ([Source 2]8)
+Basseterre,PACE,No verified data
+Bulawayo,BAL,Balanced (Inferred from Zimbabwean trends)
+Pallekele,SPIN,Spin-friendly ([Source 8]8)
+Dambulla,SPIN,"Dusty surface, spin-friendly ([Source 8]8)"
+Sharjah,SPIN,"Slow, low bounce, spin-friendly ([Source 4]4)"
+Perth,PACE,"Optus Stadium, pace-friendly ([Source 5]5)"
+Adelaide,BAL,"Balanced pitch with early pace/swing, later spin assistance1"
+Bridgetown,BAT,Batting-friendly pitch with good bounce and carry2
+Melbourne,BAT,"Flat surface, batting-friendly in T20s with high scores3"
+North Sound,BAT,Batting-friendly T20 pitch (avg 1st innings: 158)4
+Abu Dhabi,BAT,"Batting paradise with spin assistance (grassless, flat surface)5"
+Bristol,BAT,Batsman-friendly pitch with good speed/bounce6
+Lord's,BAL,"Balanced: early bounce for pacers, later spin7"
+Chester-le-Street,BAT,Batting-friendly (avg 1st innings: 139)8
+Leeds,BAT,Batting-friendly (avg 1st innings: 164)9
+Nottingham,BAT,Batting-friendly (avg 1st innings: 133)10
+Chattogram,BAT,"T20-friendly venue, template suggests batting focus11"
+Canberra,BAT,Template implies batting-friendly21
+Sydney,BAT,"Officially labeled a ""Batting pitch"" with high scores13"
+Napier,BAT,"Highest-scoring ground globally, batting paradise14"
+Nelson,BAL,"Balanced contest between bat/ball, seam movement15"
+Gqeberha,PACE,"Pace/bounce for fast bowlers, minimal spin impact16"
+Dunedin,BAT,T20 template suggests batting-friendly22
+Eden Gardens,BAT,Batting-friendly with high scores; dew aids chasers18
+Wankhede,BAT,"Flat pitch, small boundaries, high-scoring games19"
+Bengaluru,BAT,"Short boundaries, avg 1st innings >180 in T20s20"
+Pune,BAT,"Flat pitch, small boundaries, high-scoring T20/ODI venue"
+Delhi,SPIN,"Slow, low-bounce surface favoring spinners"
+Lucknow,SPIN,"Dry, dusty pitch with sharp turn (IPL 2023 trends)"
+Dharamsala,BAT,High-altitude venue with short boundaries and batting-friendly bounce
+Chennai,SPIN,Classic spin paradise with sharp turn and slow pace
+Hyderabad,BAL,Balanced pitch with some early swing and later spin
+Rajkot,BAT,"Flat surface, high-scoring ODI/T20 venue"
+Mirpur,SPIN,Extreme spin dominance with low bounce
+Indore,BAT,Batting paradise with 300+ ODI scores common
+Mohali,PACE,"Early swing/seam movement, favors pacers"
+Centurion,PACE,Pace-friendly surface with bounce and lateral movement
+The Oval,BAL,"Balanced: early swing for pacers, later batting ease"
+Potchefstroom,BAT,"Small boundaries, batting-friendly (SA domestic trends)"
+Southampton,BAL,"Balanced with some swing early, good for spinners later"
+Bloemfontein,BAT,High-scoring ground with short boundaries
+Cardiff,BAL,"Balanced pitch with swing/seam early, batting-friendly later"
+Multan,SPIN,Dry surface favoring spinners (PSL trends)
+Hambantota,SPIN,"Slow, turning tracks with low bounce"
+Tarouba,BAT,Caribbean T20 template favors batting
+Chelmsford,BAL,Balanced English county pitch
+Rawalpindi,PACE,High-scoring venue with flat pitches (Pakistani batting haven)
+Benoni,BAT,"Small boundaries, batting-friendly (SA domestic trends)"
+Sylhet,BAL,Balanced pitch with slight spin bias (Bangladeshi conditions)
+Visakhapatnam,BAL,Coastal pitch with early swing and later batting ease
+East London,BAT,"Short boundaries, batting-friendly (SA domestic trends)"
+Kimberley,BAT,"Record-high scores, extreme batting paradise"
+Raipur,BAT,"Flat surface, high-scoring T20/ODI template"
+Thiruvananthapuram,BAL,Balanced pitch with some seam movement
+Guwahati,BAT,"Short boundaries, batting-friendly (IPL high-score trends)"
+Christchurch,PACE,Pace-friendly with bounce/swing (NZ Test venue)
+Ranchi,SPIN,"Slow, low-bounce surface favoring spinners"
+Cairns,BAL,Balanced pitch with variable bounce (tropical conditions)
+Townsville,PACE,Pace-friendly with extra bounce (Australian regional trend)
+Rotterdam,BAL,Balanced European pitch with some seam movement
+Edinburgh,BAL,"Scottish conditions: swing early, batting later"
+Port of Spain,SPIN,"Slow, dry surface favoring spinners (Caribbean spin haven)"
+Manchester,BAL,"Balanced: early swing for pacers, later batting ease"
+Providence,SPIN,Extreme spin dominance (Caribbean slow tracks)
+Dublin (Malahide),PACE,Seam-friendly conditions (Irish weather trends)
+Amstelveen,BAL,Balanced Dutch pitch with moderate seam movement
+Mount Maunganui,BAL,Balanced NZ pitch with slight pace bias
+Doha,SPIN,Dry Middle Eastern surface favoring spinners
+Birmingham,BAL,"Early swing for pacers, later batting-friendly"
+Durban,PACE,Bounce/swing-friendly South African pitch
+Taunton,BAT,High-scoring English county ground
+Belfast,BAL,Neutral Irish pitch with mild seam movement
+Dublin,BAL,Balanced but slightly seam-friendly (Irish conditions)
+Dubai (DICS),SPIN,"Slow, low-bounce UAE track favoring spinners"
+Dehradun,BAT,Flat Indian pitch with small boundaries
+Gros Islet,SPIN,Caribbean slow track with sharp turn
+St George's,BAL,Balanced West Indies pitch (Grenada)
+Hobart,PACE,Pace-friendly Australian pitch with bounce
+Brabourne,BAT,Batting-friendly Mumbai stadium
+Brisbane,PACE,Legendary pace/bounce surface
+Whangarei,BAL,Balanced NZ pitch with mild swing
+Kanpur,SPIN,Classic Indian dustbowl favoring spinners
+Kingston,PACE,Caribbean pace paradise with steep bounce
+Colombo (SSC),BAT,Batting-friendly Sri Lankan pitch (vs. spin-heavy RPS)
+Greater Noida,SPIN,"Slow, low-bounce Indian track"
+W.A.C.A,PACE,Historic Perth pace paradise (now Optus Stadium)
